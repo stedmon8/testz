@@ -26,7 +26,7 @@ If you have Vagrant and VirtualBox installed you can use the Vagrantfile in the 
 Create your VM like this:
 
 ```bash
-cd example-1
+cd iac-example-1
 vagrant up
 ```
 
@@ -63,6 +63,7 @@ Note down the `appId` and `password` fields from the output. These are the `clie
 Before you deploy the first time you must initialise Terraform:
 
 ```bash
+cd iac-example-1
 terraform init
 ```
 
