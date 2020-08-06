@@ -1,0 +1,6 @@
+.vagrant/
+ubuntu-xenial-16.04-cloudimg-console.log
+.terraform/
+.terraform.tfstate.lock.info
+auth.txt
+terraform.tfstate
