@@ -4,22 +4,33 @@ An example of infrastructure as code: deploying a Kubernetes cluster to Microsof
 
 # Prerequisites
 
-You need Terraform installed to run this code.
+To run this code you  need the following installed:
+- [Terraform](https://www.terraform.io/downloads.html)
+- [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+- [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 
-You need Kubectl to test that your cluster is working after deployment.
+
+Verify your tools are installed like this:
+
+```bash
+terraform --version
+az --version
+kubectl version
+```
+
 
 # Using Vagrant (optional)
 
-The Vagrantfile in the repo creates an Ubuntu virtual machine with Terraform, Kubectl and the Azure CLI installed.
+If you have Vagrant and VirtualBox installed you can use the Vagrantfile in the repo to create a Ubuntu virtual machine that has Terraform, Kubectl and the Azure CLI already installed.
 
-If you have Vagrant and VirtualBox installed you can create the VM like this:
+Create your VM like this:
 
 ```bash
 cd example-1
 vagrant up
 ```
 
-Now shell into the VM and check that Terraform and the Azure CLI are installed:
+Now open a terminal into your VM and check that all the tools are installed:
 
 ```bash
 vagrant ssh
@@ -47,7 +58,7 @@ Make sure you plug in your own Azure subscription ID that you note down amoment 
 
 Note down the `appId` and `password` fields from the output. These are the `client_id` and `client_secret` values you need below to deploy your Kubernetes cluster.
 
-# Setup
+# One time Terraform setup
 
 Before you deploy the first time you must initialise Terraform:
 
@@ -63,18 +74,35 @@ Now we can deploy a Kubernetes cluster to Azure:
 terraform apply
 ```
 
+You must now enter a value for the `app_name` variable. You must enter a unique name for your application. This is used for the name of the private container register so it must be globally unique and it can only contain alpha numeric character (no symbols, hyphens or underscores).
+
 Enter the values for `client_id` and `client_secret` that you noted down above.
 
 Type `yes` to approve the deployment and press enter.
 
 Now go make a coffee. This could take a little while.
 
+# Authenticate Kubectl
+
+The Azure CLI makes it really easy to setup authenticated access to our cluster via Kubectl.
+
+This command will download credentials and add them to your Kubectl config:
+
+```bash
+az aks get-credentials --resource-group <your-app-name> --name <your-app-name>
+```
+
+Replace `your-app-name` with the name that you selected for your application in the previous section.
+
+
 # Test your cluster
 
-Once the deployment process has finished
+Once the deployment process has finished and we have authenticated Kubectl, run this command to test that you can access your cluster:
 
 ```bash
 kubectl get nodes
 ```
 
 This should print out the nodes in your cluster.
+
+Looking for next steps? Example-2 is coming soon.
