@@ -4,3 +4,4 @@ ubuntu-xenial-16.04-cloudimg-console.log
 .terraform.tfstate.lock.info
 auth.txt
 terraform.tfstate
+terraform.tfstate.backup

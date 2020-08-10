@@ -2,6 +2,7 @@
 
 variable app_name {
 }
+
 variable location {
   default = "West US"
 }
