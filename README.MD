@@ -68,6 +68,19 @@ Note down the `appId` and `password` fields from the output. These are the `clie
 
 # Deploy by manually invoking Terraform
 
+## Manual setup
+
+This example is designed to be invoked from a continous delivery (CD) pipeline so it has a Terraform *backend* configured to persist state in Azure.
+
+To run this code locally you must delete `backend.tf`:
+
+```bash
+cd iac-example-1
+rm backend.tf
+```
+
+It's pretty annoying that you have to make changes to the code in order to test it locally. I think I might complain to Hashicorp about this.
+
 ## One time Terraform setup
 
 Before you deploy the first time you must initialise Terraform:
@@ -82,6 +95,7 @@ terraform init
 Now we can deploy a Kubernetes cluster to Azure:
 
 ```bash
+cd iac-example-1
 terraform apply
 ```
 
@@ -92,6 +106,8 @@ Enter the values for `client_id` and `client_secret` that you noted from earlier
 Type `yes` to approve the deployment and press enter.
 
 Now go make a coffee. This could take a little while.
+
+Anytime you make changes to your code you run `terraform apply` again to update your infrastructure.
 
 ## Authenticate Kubectl
 
@@ -132,7 +148,9 @@ You need to enter the same detail as when you created the cluster and type `yes`
 
 We can easily setup this example to deploy by automated [continous delivery](https://martinfowler.com/bliki/ContinuousDelivery.html).
 
-In fact this code repository is already setup for that. When I push changes to this repo Terraform is automatically invoked and my Kubernetes cluster is updated.
+This is what *infrastructure as code* is all about. Just push changes to your code to make changes to your infrasturcture.
+
+This code repository is already setup for that. When I push changes to this repo Terraform is automatically invoked and my Kubernetes cluster is updated.
 
 With some preparation you can fork this repo for yourself and setup your own continous delivery pipeline.
 
@@ -140,7 +158,7 @@ With some preparation you can fork this repo for yourself and setup your own con
 
 You can test the continous delivery script locally. It's a good idea to do this before trying to have it run in the cloud where it's hard to debug.
 
-This repo includes a shell script `deploy.sh` that is called by the continous delivery system (a CD system is really just a fancy way to automatically run shell script). This script invokes Terraform to deploy the Kubernetes cluster to Azure.
+This repo includes a shell script `deploy.sh` that is called by the continous delivery system (a CD system is really just a fancy way to automatically run a shell script). This script invokes Terraform to deploy the Kubernetes cluster to Azure.
 
 Before you run the shell script you must set the following environment variables:
 
@@ -187,9 +205,9 @@ The configuration for the CD pipeline is in the file `bitbucket-pipelines.yaml`.
 
 To get this working for yourself you must fork this code respository on Bitbucket or create a new repository of your own and import the code.
 
-Before you can trigger a build you need to set up *Repository variables* for the respository. Add the variables that you used in the previous section.
+Before you can trigger a build you need to go to *Repository settings* for your code repo. Go to *PIPELINES > Settings* and click *Enable Pipelines* to enable the CD pipeline for the repository. You can only do this if you have the file `bitbucket-pipelines.yaml` already in your repo.
 
-Now go into the respository settings and enable *Pipelines*. 
+Now, still under *Repository settings*, go to *Repository variables* and add the variables that you used in the previous section.
 
 You are now ready to trigger your first deployment. You can invoke the CD pipeline manually from the Pipelines page of the respository or you can changes some code and push it to the hosted repository.
 
