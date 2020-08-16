@@ -7,12 +7,14 @@ This example accompanies a live stream talk that I'm giving in September (2020).
 [Follow on Twitter](https://twitter.com/ashleydavis75) for updates and announcements.
 
 There are two ways to run this example:
+
 - [Deploy by manually invoking Terraform](#deploy-by-manually-invoking-terraform)
 - [Deploy by automated continous delivery](#deploy-by-automated-continous-delivery)
 
 # Prerequisites
 
 To run this code you  need the following installed:
+
 - [Terraform](https://www.terraform.io/downloads.html)
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
@@ -172,7 +174,7 @@ export ARM_TENANT_ID=<tenant-id-from-your-azure-service-prinicple>
 
 Make sure you use the unique name for your app that you selected earlier.
 
-Refer back to the [Azure authentication](#azure-authentication) section above to authenticate with Azure and create a service principle.
+Refer back to the [Azure authentication](#markdown-header-azure-authenication) section above to authenticate with Azure and create a service principle.
 
 When running automated continous delivery in the cloud you also need a place to store your Terraform state. You'll need to create an Azure storage account with a container and then tell Terraform which file in the container to use to store its state.
 
