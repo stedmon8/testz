@@ -1,5 +1,5 @@
 #
-# Provision a Kubernetes cluster.
+# Destroys a Kubernetes cluster.
 #
 
 set -u # or set -o nounset
