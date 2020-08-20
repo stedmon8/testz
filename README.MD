@@ -1,8 +1,13 @@
 # IaC demo / Example-1
 
-An example of infrastructure as code: deploying a Kubernetes cluster to Microsoft Azure with Terraform.
+An example of infrastructure as code: deploying a Kubernetes cluster and a contain registry to Microsoft Azure with Terraform.
 
-This example accompanies a live stream talk that I'm giving in September (2020). My talk will cover to examples (this is the first) and go into a lot of detail about how all this works.
+Tihs code repository contains the Terraform scripts to build a container registry and Kubernetes cluster.
+
+This example accompanies a live stream talk that I'm giving in September (2020). My talk will cover two examples:
+
+- Example-1 (this example) - Deploying a Kubernetes cluster and container registry.
+- [Example-2](https://bitbucket.org/bootstrapping-microservices/iac-example-2) - Deploying a microservice.
 
 [Follow on Twitter](https://twitter.com/ashleydavis75) for updates and announcements.
 
@@ -24,14 +29,13 @@ Verify your tools are installed like this:
 
 ```bash
 terraform --version
-az --version
 kubectl version
+az --version
 ```
-
 
 # Using Vagrant (optional)
 
-If you have Vagrant and VirtualBox installed you can use the Vagrantfile in the repo to create a Ubuntu virtual machine that has Terraform, Kubectl and the Azure CLI already installed.
+If you have Vagrant and VirtualBox installed you can use the Vagrantfile in this repo to create a Ubuntu virtual machine that has Terraform, Kubectl and the Azure CLI already installed and ready to be used.
 
 Create your VM like this:
 
@@ -160,9 +164,11 @@ With some preparation you can fork this repo for yourself and setup your own con
 
 You can test the continous delivery script locally. It's a good idea to do this before trying to have it run in the cloud where it's hard to debug.
 
+Before you do this make sure you revert the file `backend.tf` that you deleted earlier.
+
 This repo includes a shell script `deploy.sh` that is called by the continous delivery system (a CD system is really just a fancy way to automatically run a shell script). This script invokes Terraform to deploy the Kubernetes cluster to Azure.
 
-Before you run the shell script you must set the following environment variables:
+Before you run the shell script you must set the following environment variables (make sure you replace the placeholder values!):
 
 ```bash
 export APP_NAME=<your-app-name>
@@ -172,13 +178,13 @@ export ARM_CLIENT_SECRET=<password-from-your-azure-service-prinicple>
 export ARM_TENANT_ID=<tenant-id-from-your-azure-service-prinicple>
 ```
 
-Make sure you use the unique name for your app that you selected earlier.
+Use the unique name for your app that you selected earlier.
 
-Refer back to the [Azure authentication](#markdown-header-azure-authenication) section above to authenticate with Azure and create a service principle.
+Refer back to the [Azure authentication](#markdown-header-azure-authenication) section above to authenticate with Azure and create a service principle so that you have values for the Azure authentication environment variables.
 
 When running automated continous delivery in the cloud you also need a place to store your Terraform state. You'll need to create an Azure storage account with a container and then tell Terraform which file in the container to use to store its state.
 
-Then you need to provide those details as environment variables:
+Then you need to provide those details as environment variables (replace the placeholder values!):
 
 ```bash
 export TFSTATE_BACKEND_RES_GROUP=<azure-resource-group-name>
@@ -206,6 +212,8 @@ This was only a local test run. We still need to get this running automatically 
 The configuration for the CD pipeline is in the file `bitbucket-pipelines.yaml`. This is a really small file that simply invokes our script `deploy.sh`.
 
 To get this working for yourself you must fork this code respository on Bitbucket or create a new repository of your own and import the code.
+
+Before you do this make sure you revert the file `backend.tf` that you deleted earlier.
 
 Before you can trigger a build you need to go to *Repository settings* for your code repo. Go to *PIPELINES > Settings* and click *Enable Pipelines* to enable the CD pipeline for the repository. You can only do this if you have the file `bitbucket-pipelines.yaml` already in your repo.
 

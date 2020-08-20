@@ -12,7 +12,6 @@ set -u # or set -o nounset
 : "$TFSTATE_BACKEND_KEY"
 
 terraform init \
-    -backend=true \
     -backend-config="resource_group_name=$TFSTATE_BACKEND_RES_GROUP" \
     -backend-config="storage_account_name=$TFSTATE_BACKEND_STORAGE_ACC" \
     -backend-config="container_name=$TFSTATE_BACKEND_CONTAINER" \
