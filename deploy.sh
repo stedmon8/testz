@@ -2,6 +2,7 @@
 # Provision a Kubernetes cluster.
 #
 
+set -e # Any subsequent commands that fail exit the script with an error.
 set -u # or set -o nounset
 : "$APP_NAME"
 : "$ARM_CLIENT_ID"
