@@ -6,7 +6,7 @@ Tihs code repository contains the Terraform scripts to build a container registr
 
 This example accompanies a live stream talk that I'm giving in September (2020). My talk will cover two examples:
 
-- Example-1 (this example) - Deploying a Kubernetes cluster and container registry.
+- Example-1 - Deploying a Kubernetes cluster and container registry (this example).
 - [Example-2](https://bitbucket.org/bootstrapping-microservices/iac-example-2) - Deploying a microservice.
 
 [Follow on Twitter](https://twitter.com/ashleydavis75) for updates and announcements.
@@ -14,7 +14,7 @@ This example accompanies a live stream talk that I'm giving in September (2020).
 There are two ways to run this example:
 
 - [Deploy by manually invoking Terraform](#deploy-by-manually-invoking-terraform)
-- [Deploy by automated continous delivery](#deploy-by-automated-continous-delivery)
+- [Deploy by automated continuous delivery](#deploy-by-automated-continous-delivery)
 
 # Prerequisites
 
@@ -211,13 +211,13 @@ This was only a local test run. We still need to get this running automatically 
 
 The configuration for the CD pipeline is in the file `bitbucket-pipelines.yaml`. This is a really small file that simply invokes our script `deploy.sh`.
 
-To get this working for yourself you must fork this code respository on Bitbucket or create a new repository of your own and import the code.
+To get this working for yourself you must fork [this code respository](https://bitbucket.org/bootstrapping-microservices/iac-example-1) on Bitbucket or create a new repository of your own and import the code.
 
 Before you do this make sure you revert the file `backend.tf` that you deleted earlier.
 
 Before you can trigger a build you need to go to *Repository settings* for your code repo. Go to *PIPELINES > Settings* and click *Enable Pipelines* to enable the CD pipeline for the repository. You can only do this if you have the file `bitbucket-pipelines.yaml` already in your repo.
 
-Now, still under *Repository settings*, go to *Repository variables* and add the variables that you used in the previous section.
+Now, still under *Repository settings*, go to *Repository variables* and add the environment variables that you used in the previous section.
 
 You are now ready to trigger your first deployment. You can invoke the CD pipeline manually from the Pipelines page of the respository or you can changes some code and push it to the hosted repository.
 
